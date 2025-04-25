@@ -1,0 +1,144 @@
+:root {
+    --popup-bg-light: rgba(255, 255, 255, 0.9);
+    --popup-text-light: #2d3748;
+    --popup-shadow-light: 0 5px 15px rgba(0, 0, 0, 0.08), 0 2px 5px rgba(0, 0, 0, 0.04);
+    --popup-border-light: rgba(0, 0, 0, 0.05);
+    --button-color-light: #a0aec0;
+    --button-hover-light: #4a5568;
+    --disable-color-light: #718096;
+    --disable-hover-light: #2d3748;
+
+    --popup-bg-dark: rgba(45, 55, 72, 0.9);
+    --popup-text-dark: #e2e8f0;
+    --popup-shadow-dark: 0 5px 15px rgba(0, 0, 0, 0.2), 0 2px 5px rgba(0, 0, 0, 0.1);
+    --popup-border-dark: rgba(255, 255, 255, 0.1);
+    --button-color-dark: #a0aec0;
+    --button-hover-dark: #edf2f7;
+    --disable-color-dark: #a0aec0;
+    --disable-hover-dark: #e2e8f0;
+}
+
+#nav-timer-feedback-popup {
+  position: fixed;
+  z-index: 99999999;
+  padding: 12px 16px;
+  padding-bottom: 24px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+  pointer-events: none;
+  white-space: pre-wrap;
+  line-height: 1.5;
+
+  background: var(--popup-bg-light);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+
+  color: var(--popup-text-light);
+  box-shadow: var(--popup-shadow-light);
+  border: 1px solid var(--popup-border-light);
+  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+  overflow: hidden;
+}
+
+#nav-timer-feedback-popup .nav-timer-text-container {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 4px 12px;
+  align-items: baseline;
+  margin-bottom: 10px;
+}
+
+#nav-timer-feedback-popup .nav-timer-label {
+  font-weight: 600;
+  grid-column: 1 / 2;
+  text-align: left;
+}
+
+#nav-timer-feedback-popup .nav-timer-result-time {
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
+  font-size: 1.05em;
+  font-weight: 500;
+  grid-column: 2 / 3;
+  text-align: right;
+  white-space: nowrap;
+}
+
+#nav-timer-feedback-popup .nav-timer-result-frames {
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
+  font-size: 0.9em;
+  font-weight: 400;
+  color: var(--disable-color-light);
+  grid-column: 3 / 4;
+  text-align: right;
+  white-space: nowrap;
+}
+
+#nav-timer-feedback-popup .nav-timer-close-button {
+    position: absolute;
+    bottom: 6px;
+    right: 10px;
+    font-size: 20px;
+    font-weight: 300;
+    cursor: pointer;
+    pointer-events: auto;
+    line-height: 1;
+    padding: 1px 3px 4px;
+    border-radius: 4px;
+    color: var(--button-color-light);
+    transition: color 0.2s ease, background-color 0.2s ease;
+}
+
+#nav-timer-feedback-popup .nav-timer-close-button:hover {
+  color: var(--button-hover-light);
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+#nav-timer-feedback-popup .nav-timer-disable-button {
+    position: absolute;
+    bottom: 8px;
+    left: 14px;
+    font-size: 11px;
+    font-weight: 500;
+    cursor: pointer;
+    pointer-events: auto;
+    color: var(--disable-color-light);
+    text-decoration: none;
+    transition: color 0.2s ease;
+    padding: 2px;
+}
+
+#nav-timer-feedback-popup .nav-timer-disable-button:hover {
+  color: var(--disable-hover-light);
+  text-decoration: underline;
+}
+
+@media (prefers-color-scheme: dark) {
+  #nav-timer-feedback-popup {
+    background: var(--popup-bg-dark);
+    color: var(--popup-text-dark);
+    box-shadow: var(--popup-shadow-dark);
+    border: 1px solid var(--popup-border-dark);
+  }
+
+  #nav-timer-feedback-popup .nav-timer-close-button {
+    color: var(--button-color-dark);
+  }
+
+  #nav-timer-feedback-popup .nav-timer-close-button:hover {
+    color: var(--button-hover-dark);
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+
+   #nav-timer-feedback-popup .nav-timer-disable-button {
+      color: var(--disable-color-dark);
+  }
+
+   #nav-timer-feedback-popup .nav-timer-disable-button:hover {
+      color: var(--disable-hover-dark);
+  }
+
+  #nav-timer-feedback-popup .nav-timer-result-frames {
+      color: var(--disable-color-dark);
+  }
+}

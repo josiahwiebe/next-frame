@@ -1,0 +1,61 @@
+name: Publish Chrome Extension
+
+on:
+  push:
+    tags:
+      - v*
+
+jobs:
+  build-extension:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Create Dist Directory
+        run: |
+          mkdir dist
+          cp manifest.json background.js content.js styles.css logo.svg dist/
+          cp -r icons dist/
+
+      - name: Build Zip
+        run: zip -r next-frame-${{ github.ref_name }}.zip dist
+
+      - name: Upload
+        uses: actions/upload-artifact@v3
+        with:
+          name: next-frame-${{ github.ref_name }}.zip
+          path: next-frame-${{ github.ref_name }}.zip
+
+
+  upload-extension:
+    runs-on: ubuntu-latest
+    needs: build-extension
+    env:
+      CHROME_WEB_STORE_REFRESH_TOKEN: ${{ secrets.CHROME_WEB_STORE_REFRESH_TOKEN }}
+      CHROME_WEB_STORE_CLIENT_ID: ${{ secrets.CHROME_WEB_STORE_CLIENT_ID }}
+      CHROME_WEB_STORE_CLIENT_SECRET: ${{ secrets.CHROME_WEB_STORE_CLIENT_SECRET }}
+      EXTENSION_ID: ${{ secrets.EXTENSION_ID }}
+    steps:
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Download bundle artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: next-frame-${{ github.ref_name }}.zip
+
+      - name: Install webstore cli
+        run: |-
+          npm install -g chrome-webstore-upload-cli
+
+      - name: Upload step
+        run: |-
+          chrome-webstore-upload upload \\
+            --source next-frame-${{ github.ref_name }}.zip \\
+            --extension-id ${{ env.EXTENSION_ID }} \\
+            --client-id ${{ env.CHROME_WEB_STORE_CLIENT_ID }} \\
+            --client-secret ${{ env.CHROME_WEB_STORE_CLIENT_SECRET }} \\
+            --refresh-token ${{ env.CHROME_WEB_STORE_REFRESH_TOKEN }}
+
