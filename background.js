@@ -31,12 +31,24 @@ async function setIconState(tabId, isActive) {
 chrome.action.onClicked.addListener(async (tab) => {
   if (tab.id) {
     try {
+      // Inject CSS first before executing script
+      await chrome.scripting.insertCSS({
+          target: { tabId: tab.id },
+          files: ['styles.css']
+      });
+
+      // Then execute the content script
       await chrome.scripting.executeScript({
         target: { tabId: tab.id },
         files: ['content.js']
       });
+
+      // Set icon to active only after both succeed
       await setIconState(tab.id, true);
+
     } catch (err) {
+      // If either injection fails, reset the icon state
+      console.error("Failed to inject CSS or script: ", err);
       await setIconState(tab.id, false);
     }
   } else {
