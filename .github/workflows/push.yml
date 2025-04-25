@@ -22,7 +22,7 @@ jobs:
         run: zip -r next-frame-${{ github.ref_name }}.zip dist
 
       - name: Upload
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: next-frame-${{ github.ref_name }}.zip
           path: next-frame-${{ github.ref_name }}.zip
@@ -42,7 +42,7 @@ jobs:
           node-version: 20
 
       - name: Download bundle artifact
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: next-frame-${{ github.ref_name }}.zip
 
